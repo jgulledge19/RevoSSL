@@ -4,7 +4,7 @@
  * Author:          Joshua Gulledge
  * Created:         5/5/2011
  * Updated:         4/11/2013
- * Version:         1.0.3pl
+ * Version:         1.0.4pl
  * Description:     Allow users to make a page SSL and the Manager SSL
  * 
  * Based on Evo plugin:
@@ -14,22 +14,14 @@
             Sets site-wide custom placeholders for secure/insecure server paths and base href
 */
 $makeSSL = false; 
+$enable = false;
 switch($modx->event->name) {
     /* on the manager load */
     case 'OnBeforeManagerPageInit':
     case 'OnManagerPageInit':
     case 'OnManagerLoginFormPrerender':
-    //case 'OnManagerLoginFormRender':
-        /**
-         * Other events: 
-         * OnManagerPageInit
-         * OnManagerPageInit
-         * OnManagerLoginFormPrerender
-         * OnManagerLoginFormRender
-         * OnBeforeManagerLogin
-         * OnManagerAuthentication
-         * OnManagerLogin
-         */
+        $enable = $modx->getOption('revoSSL.enableManager',$scriptProperties, false);
+        
         // get a system setting - revoSSL.manager
         $makeSSL = $modx->getOption('revoSSL.manager',$scriptProperties,false);
         if ( $makeSSL == 'Yes' || $makeSSL == 'Y' ) {
@@ -38,6 +30,8 @@ switch($modx->event->name) {
         break;
     /* On web page loads */
     case 'OnWebPageInit':
+        $enable = $modx->getOption('revoSSL.enableWeb',$scriptProperties, false);
+        
         // if a property set is defined:
         $makeSSL = $modx->getOption('makeSSL', $scriptProperties, 0);
         if ( $makeSSL == 'Yes' || $makeSSL == 'Y' ) {
@@ -51,7 +45,7 @@ switch($modx->event->name) {
                 // http://forums.modx.com/thread/83816/revossl---pretty-severe-bug
                 if ($resource->get('published') == false || $resource->get('deleted')) {
                     if ( !$modx->hasPermission('view_unpublished') ) {
-                        return false;
+                        return;
                     }
                 }
                 // END
@@ -68,12 +62,18 @@ switch($modx->event->name) {
             
         break;
 }
+
+if ( $enable == 'No' || $enable == 'n' || !$enable ) {
+    // Do not continue
+    return;
+}
 // is the current page in SSL?
 if( $_SERVER['HTTPS'] == 1 || $_SERVER['HTTPS'] == 'on' || $_SERVER['SERVER_PORT'] == 443) {
     $ssl = true;
 } else {
     $ssl = false;
 }
+
 $force_redirect = false;
 $host = $_SERVER['HTTP_HOST'];
 // force www or no www
@@ -104,4 +104,4 @@ if ( $makeSSL && !$ssl ) {
     }
 }
 
-return true;
+return;

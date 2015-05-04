@@ -1,0 +1,23 @@
+Change log for revoSSL
+
+revoSSL 1.0.4 pl
+================================================================
+- Fixed #1 disable on install
+
+revoSSL 1.0.3 pl
+================================================================
+- Removed error log message on call
+
+revoSSL 1.0.2 pl
+================================================================
+- Fix redirect error introduced in 1.0.1
+- Added new system settings: revoSSL.forceWWW, if set to true it will force example.com to go to www.example.com
+
+revoSSL 1.0.1 pl
+================================================================
+- Fix Security issue of showing unpublished/deleted pages
+
+
+revoSSL 1.0 pl
+================================================================
+- Initial release
