@@ -4,7 +4,7 @@
  * Author:          Joshua Gulledge
  * Created:         5/5/2011
  * Updated:         4/11/2013
- * Version:         1.0.1pl
+ * Version:         1.0.3pl
  * Description:     Allow users to make a page SSL and the Manager SSL
  * 
  * Based on Evo plugin:
@@ -19,7 +19,6 @@ switch($modx->event->name) {
     case 'OnBeforeManagerPageInit':
     case 'OnManagerPageInit':
     case 'OnManagerLoginFormPrerender':
-        return; // DO NOT USE THIS Nginx does it
     //case 'OnManagerLoginFormRender':
         /**
          * Other events: 
@@ -105,4 +104,4 @@ if ( $makeSSL && !$ssl ) {
     }
 }
 
-return;
+return true;

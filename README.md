@@ -1,1 +1,1 @@
-See http://modx.com/extras/package/revossl
+RevoSSL is a plugin that will allow you to secure (make SSL) the Manager and any web page that you would like to have secure.
